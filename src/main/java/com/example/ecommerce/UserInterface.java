@@ -26,7 +26,8 @@ public class UserInterface {
     Customer loggedInCustomer;
 
     ProductList productlist=new ProductList();
-
+    OrderList orderList=new OrderList();
+    VBox orderPage;
     VBox productPage;
 
     Button placeOrderButton=new Button("Place Order");
@@ -135,7 +136,7 @@ public class UserInterface {
         headerBar.setPadding(new Insets(10));
         headerBar.setSpacing(10);
         headerBar.setAlignment(Pos.CENTER);
-        headerBar.getChildren().addAll(homeButton,searchBar,searchButton,signInButton,cartButton);
+        headerBar.getChildren().addAll(homeButton,searchBar,searchButton,signInButton,cartButton,orderButton);
 
         signInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -194,6 +195,22 @@ public class UserInterface {
                 }
             }
         });
+        orderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                body.getChildren().clear();
+                orderPage=orderList.getAllOrders();
+                body.getChildren().add(orderPage);
+                footerBar.setVisible(false);
+                if(loggedInCustomer==null){
+                    System.out.println(headerBar.getChildren().indexOf(signInButton));
+                    if(headerBar.getChildren().indexOf(signInButton)==-1){
+                        headerBar.getChildren().add(signInButton);
+                    }
+                }
+            }
+        });
+
 
     }
     private void createFooterBar(){
