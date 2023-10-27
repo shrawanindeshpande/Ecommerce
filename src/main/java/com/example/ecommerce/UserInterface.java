@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -85,6 +87,7 @@ public class UserInterface {
                     headerBar.getChildren().add(welcomeLabel);
                     body.getChildren().clear();
                     body.getChildren().add(productPage);
+                    headerBar.getChildren().remove(signInButton);
                 }
                 else{
                     mlabel.setText("Login Failed ! please provide correct credential");
@@ -93,22 +96,46 @@ public class UserInterface {
         });
     }
     private void createHeaderBar(){
+
+        Button homeButton=new Button();
+        Image image=new Image("C:\\Users\\Lenovo\\IdeaProjects\\ECommerce\\src\\main\\logo.png");
+        ImageView imageView=new ImageView();
+        imageView.setImage(image);
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(90);
+        homeButton.setGraphic(imageView);
+
+
         TextField searchBar=new TextField();
         searchBar.setPromptText("Search Product");
         searchBar.setPrefWidth(220);
-        Button searchButton=new Button("Search");
+        Button searchButton=new Button();
+        Image searchImage=new Image("C:\\Users\\Lenovo\\IdeaProjects\\ECommerce\\src\\main\\search.png");
+        ImageView seaView=new ImageView();
+        seaView.setImage(searchImage);
+        seaView.setFitHeight(18);
+        seaView.setFitWidth(30);
+        searchButton.setGraphic(seaView);
 
         signInButton=new Button("Sign in");
         welcomeLabel=new Label();
 
-        Button cartButton=new Button("Cart");
+        Button cartButton=new Button();
+
+        Button orderButton=new Button("orders");
+        Image cartImage=new Image("C:\\Users\\Lenovo\\IdeaProjects\\ECommerce\\src\\main\\cart.png");
+        ImageView cartView=new ImageView();
+        cartView.setImage(cartImage);
+        cartView.setFitHeight(20);
+        cartView.setFitWidth(30);
+        cartButton.setGraphic(cartView);
 
         headerBar =new HBox();
         headerBar.setStyle("-fx-background-color: #71a3f5;");
         headerBar.setPadding(new Insets(10));
         headerBar.setSpacing(10);
         headerBar.setAlignment(Pos.CENTER);
-        headerBar.getChildren().addAll(searchBar,searchButton,signInButton,cartButton);
+        headerBar.getChildren().addAll(homeButton,searchBar,searchButton,signInButton,cartButton);
 
         signInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -149,6 +176,21 @@ public class UserInterface {
                 }
                 else{
                     showDialog("order failed");
+                }
+            }
+        });
+        homeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                body.getChildren().clear();
+                body.getChildren().add(productPage);
+                footerBar.setVisible(true);
+                if(loggedInCustomer==null){
+                    System.out.println(headerBar.getChildren().indexOf(signInButton));
+                    if(headerBar.getChildren().indexOf(signInButton)==-1){
+                        headerBar.getChildren().add(signInButton);
+                    }
+
                 }
             }
         });
